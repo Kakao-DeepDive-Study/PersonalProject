@@ -11,6 +11,7 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/modules/EVchargeProject.main.iml
 
 # AWS User-specific
 .idea/**/aws.xml

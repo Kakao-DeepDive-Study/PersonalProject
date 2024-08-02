@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class MainController {
     private final MainServiceImpl mainService;
 
     @GetMapping("/home")
-    public String Home(@SessionAttribute(name = "address", required = false) String address, Model model){
+    public String Home(@SessionAttribute(required = false) String address, Model model){
         List<EVChargeDouble> evChargeDoubleList = mainService.getEVChargeByAddress2(address);
         model.addAttribute("evChargeDoubleList",evChargeDoubleList);
         System.out.println("리스트 사이즈 : "+evChargeDoubleList.size());

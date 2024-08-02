@@ -3,7 +3,6 @@ package com.example.evchargeproject.Dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
 
 @Getter
 @Setter

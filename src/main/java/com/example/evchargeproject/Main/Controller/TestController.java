@@ -23,7 +23,7 @@ public class TestController {
     private final MainServiceImpl mainService;
 
     @GetMapping("/test/home")
-    public List<EVChargeDouble> Home(@SessionAttribute(name = "address", required = false) String address){
+    public List<EVChargeDouble> Home(@SessionAttribute(required = false) String address){
         List<EVChargeDouble> evChargeDoubleList = mainService.getEVChargeByAddress2(address);
 
         System.out.println("Test Controller의 address : "+address);

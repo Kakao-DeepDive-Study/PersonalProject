@@ -12,6 +12,10 @@
 .idea/**/dictionaries
 .idea/**/shelf
 .idea/modules/EVchargeProject.main.iml
+.idea/modules/EVchargeProject.iml
+.idea/modules/EVchargeProject.test.iml
+.idea/misc.xml
+.idea/modules/EVchargeProject.main.iml
 
 # AWS User-specific
 .idea/**/aws.xml

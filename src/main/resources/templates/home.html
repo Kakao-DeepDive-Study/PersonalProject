@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>전기차 충전소 위치 찾기</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <!--    <link href="/static/css/styles.css" rel="stylesheet" />-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+    <!-- Bootstrap core CSS -->
+    <!--    <link href="/static/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+        .wrap * {padding: 0;margin: 0;}
+        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+        .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+        .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+        .info .close:hover {cursor: pointer;}
+        .info .body {position: relative;overflow: hidden;}
+        .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+        .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+        .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .info .link {color: #5085BB;}
+    </style>
+    <!-- Custom styles for this template -->
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- header-->
+<header class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="" class="nav-link px-2 text-white">전기차 충전소</a></li>
+                <li><a href="/list" class="nav-link px-2 text-white">충전소 목록</a></li>
+                <li><a href="/projectintro" class="nav-link px-2 text-white">사이트 소개</a></li>
+                <button id="currentLocationButton" class="nav-link px-2 text-white">현위치</button>
+<!--                <select id="carTypeSelect" name="carType" class="nav-link text-white form-select-sm" aria-label="Default select example">-->
+<!--                    <option selected>차종 선택</option>-->
+<!--                    <option class="text-black" value="blueon">블루온</option>-->
+<!--                    <option class="text-black" value="ray">레이</option>-->
+<!--                    <option class="text-black" value="leaf">leaf</option>-->
+<!--                    <option class="text-black" value="spark">스파크</option>-->
+<!--                    <option class="text-black" value="i3">i3</option>-->
+<!--                    <option class="text-black" value="volt">볼트</option>-->
+<!--                    <option class="text-black" value="zoe">ZOE</option>-->
+<!--                    <option class="text-black" value="soul">쏘울</option>-->
+<!--                    <option class="text-black" value="Ioniq">아이오닉</option>-->
+<!--                    <option class="text-black" value="sm3">SM3</option>-->
+<!--                    <option class="text-black" value="kona">코나</option>-->
+<!--                </select>-->
+            </ul>
+
+            <!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">-->
+            <!--                <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">-->
+            <!--            </form>-->
+
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2">Login</button>
+                <button type="button" class="btn btn-primary">Sign-up</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="map" style="width:100%;height:550px;" ></div>
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">2023 데이터베이스 프로젝트, 임창희</p>
+
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="/home" class="nav-link px-2 text-body-secondary">전기차 충전소</a></li>
+            <li class="nav-item"><a href="/list" class="nav-link px-2 text-body-secondary">충전소 목록</a></li>
+            <li class="nav-item"><a href="/projectintro" class="nav-link px-2 text-body-secondary">사이트 소개</a></li>
+        </ul>
+    </footer>
+</div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e0ddad4c5c04fde354a56202801e318c&libraries=services"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.20962, 126.97710), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+    // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+    // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 마커를 표시할 위치와 title 객체 배열입니다
+    var positions = [];
+
+    var evChargeDoubleList = [];
+
+    var carTypeSelect = document.getElementById("carTypeSelect");
+    // 버튼 엘리먼트 생성
+    var customControl = document.createElement('div');
+    customControl.innerHTML = '<button id="customButton" class="btn btn-outline-dark">현재 위치에서 검색</button>';
+    customControl.style.position = 'absolute';
+    customControl.style.bottom = '10px';
+    customControl.style.left = '50%';
+    customControl.style.transform = 'translateX(-50%)';
+    customControl.style.zIndex = '1';
+    mapContainer.appendChild(customControl);
+
+
+
+    function changeAddressTolatlng(){
+        $.ajax({
+            type: 'GET',
+            url: '/test/home', // 데이터를 전송할 URL
+            data: 'json',
+            success: function(data) {
+                evChargeDoubleList = data;
+                console.log("evChargeDoubleList = ", evChargeDoubleList);
+                convertAddressesToCoordinates(data);
+                for (var i = 0; i < positions.length; i ++) {
+                    // 마커 이미지를 생성합니다
+                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                    var carType;
+                    if(positions[i].carType == 1){
+                        carType = "블루운,레이,leaf,스파크,i3,볼트,ZOE,SM3";
+                    }else if(positions[i].carType == 2){
+                        carType = "스파크,i3,볼트,ZOE,쏘울,아이오닉";
+                    }else if(positions[i].carType == 3){
+                        carType = "블루운,레이,leaf,쏘울,아이오닉";
+                    }else if(positions[i].carType == 4){
+                        carType = "SM3";
+                    }else if(positions[i].carType == 5){
+                        carType = "블루운,레이,leaf,쏘울,아이오닉,SM3";
+                    }else if(positions[i].carType == 6){
+                        carType = "블루운,레이,leaf,스파크,i3,볼트,ZOE,쏘울,아이오닉";
+                    }else if(positions[i].carType == 7){
+                        carType = "블루운,레이,leaf,스파크,i3,볼트,ZOE,쏘울,아이오닉,SM3";
+                    }else{
+                        carType="";
+                    }
+
+                    displayMarker(positions[i].latlng, positions[i].title, positions[i].address, carType);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending location:', error);
+            }
+        });
+    }
+
+
+    // 주소를 위도와 경도로 변환하여 positions 배열에 추가하는 함수
+    function convertAddressesToCoordinates(data) {
+        // evChargeDoubleList에 있는 각 주소를 순회하며 위도와 경도로 변환하여 positions 배열에 추가
+        data.forEach(function(item) {
+            geocoder.addressSearch(item.address, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    var latlng = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    positions.push({
+                        title: item.name,
+                        address: item.address,
+                        carType: item.numberofevcharge,
+                        latlng: latlng
+                    });
+                }
+            });
+        });
+    }
+
+    // 즐겨찾기 마커 이미지의 이미지 주소입니다
+    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    // 마커 이미지의 이미지 크기 입니다
+    var imageSize = new kakao.maps.Size(24, 35);
+
+    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+    if (navigator.geolocation) {
+        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            var lat = position.coords.latitude, // 위도
+                lon = position.coords.longitude; // 경도
+
+            var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
+            searchDetailAddrFromCoords(locPosition,function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    var address = result[0].address.address_name;
+                    sendLocationToServer(address);
+                    changeAddressTolatlng();
+                }
+            });
+            // 마커와 인포윈도우를 표시합니다
+            displayMyMarker(locPosition, message);
+
+            mapOption.center=locPosition;
+        });
+
+    } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+
+        var locPosition = new kakao.maps.LatLng(37.20962, 126.97710),
+            message = 'geolocation을 사용할수 없어요..'
+
+        displayMarker(locPosition, message);
+    }
+
+    var myImageSrc = "../../assets/pngwing.com.png";
+
+    // 마커 이미지를 생성합니다
+    var myMarkerImage = new kakao.maps.MarkerImage(myImageSrc, imageSize);
+
+    function displayMyMarker(locPosition, message){
+        var mymarker = new kakao.maps.Marker({
+            map: map,
+            position: locPosition,
+            image: myMarkerImage
+        });
+
+        var iwContent = message;  // 인포윈도우에 표시할 내용
+        var iwRemoveable = true;
+
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content : iwContent,
+            removable : iwRemoveable
+            //image: myMarkerImage
+        });
+
+        // 인포윈도우를 마커위에 표시합니다
+        infowindow.open(map, mymarker);
+
+        // 지도 중심좌표를 접속위치로 변경합니다
+        map.setCenter(locPosition);
+    }
+
+    function displayMarker(locPosition, message, address, carType) {
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: locPosition,
+            address: address,
+            carType: carType,
+            clickable: true // 클릭 가능하도록 설정
+        });
+
+        var overlay = null;
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            var overlayContent = createOverlayContent(message, address, carType); // 오버레이 내용 생성
+            overlay = new kakao.maps.CustomOverlay({
+                content: overlayContent,
+                map: map,
+                position: marker.getPosition()
+            });
+
+            kakao.maps.event.addListener(marker, 'click', function() {
+                overlay.setMap(map); // 마커 클릭 시 오버레이 표시
+            });
+
+            // 오버레이를 닫기 위한 이벤트 추가
+            document.getElementById('closeButton').addEventListener('click', function() {
+                overlay.setMap(null);
+            });
+
+        });
+    }
+
+    function createOverlayContent(message, address,carType) {
+        var wrap = document.createElement('div');
+        wrap.classList.add('wrap');
+
+        var info = document.createElement('div');
+        info.classList.add('info');
+
+        var title = document.createElement('div');
+        title.classList.add('title');
+        title.textContent = message;
+        title.style.whiteSpace = 'initial';
+
+        var close = document.createElement('button');
+        close.classList.add('close');
+        close.setAttribute('title', '닫기');
+        close.setAttribute('id', 'closeButton');
+        close.addEventListener('click', function(){
+            overlay.setMap(null);
+        });
+
+        title.appendChild(close);
+
+        var body = document.createElement('div');
+        body.classList.add('body');
+
+        var imgDiv = document.createElement('div');
+        imgDiv.classList.add('img');
+
+        var img = document.createElement('img');
+        img.src = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png';
+        img.width = 65;
+        img.height = 70;
+
+        imgDiv.appendChild(img);
+
+        var desc = document.createElement('div');
+        desc.classList.add('desc');
+        var ellipsis1 = document.createElement('div');
+        ellipsis1.classList.add('ellipsis');
+        ellipsis1.textContent = address;
+
+        var ellipsis2 = document.createElement('div');
+        ellipsis2.classList.add('ellipsis');
+        ellipsis2.textContent = carType;
+
+        // desc 안에 들어가는 ellipsis1과 ellipsis2에 CSS 스타일 추가
+        ellipsis1.style.whiteSpace = 'initial'; // 넘치는 텍스트를 강제로 한 줄에 표시
+        ellipsis1.style.overflow = 'hidden'; // 넘치는 텍스트를 숨김
+        ellipsis1.style.textOverflow = 'ellipsis'; // 넘치는 텍스트는 생략 부호(...)로 표시
+
+        ellipsis2.style.whiteSpace = 'initial'; // 넘치는 텍스트를 강제로 한 줄에 표시
+        ellipsis2.style.overflow = 'hidden'; // 넘치는 텍스트를 숨김
+        ellipsis2.style.textOverflow = 'ellipsis'; // 넘치는 텍스트는 생략 부호(...)로 표시
+
+        var kakaoMapURL = "https://map.kakao.com/";
+        var searchAddress = address;
+
+        var linkDiv = document.createElement('div');
+        var link = document.createElement('a');
+        link.href = kakaoMapURL + '?q=' + encodeURIComponent(searchAddress);
+        link.target = address;
+        link.textContent = '카카오맵';
+        link.classList.add('link');
+
+        linkDiv.appendChild(link);
+
+        // 생성한 linkDiv를 원하는 위치에 추가하면 됩니다
+        info.appendChild(linkDiv);
+
+        desc.appendChild(ellipsis1);
+        desc.appendChild(ellipsis2);
+        desc.appendChild(linkDiv);
+
+        body.appendChild(imgDiv);
+        body.appendChild(desc);
+
+        info.appendChild(title);
+        info.appendChild(body);
+
+        wrap.appendChild(info);
+
+        return wrap.outerHTML;
+    }
+
+    // 버튼 클릭 이벤트 처리
+    var customButton = document.getElementById('customButton');
+    customButton.addEventListener('click', function() {
+        var locPosition = map.getCenter();
+        searchDetailAddrFromCoords(locPosition,function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var address = result[0].address.address_name;
+
+                sendLocationToServer(address);
+                changeAddressTolatlng();
+            }
+        });
+    });
+
+    document.getElementById("currentLocationButton").addEventListener("click", locPostionToaddress);
+    function locPostionToaddress() {
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                var locPosition = new kakao.maps.LatLng(lat, lon);
+                map.setCenter(locPosition);
+                searchDetailAddrFromCoords(locPosition,function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        var address = result[0].address.address_name;
+
+                        sendLocationToServer(address);
+                        changeAddressTolatlng();
+                    }
+                });
+            }, function (error) {
+                console.error('Error getting current location:', error);
+            });
+        }
+
+    }
+    function sendLocationToServer(address) {
+        $.ajax({
+            type: 'POST',
+            url: '/sendLocation', // 데이터를 전송할 URL
+            data: {
+                address: address
+            },
+            success: function(response) {
+                console.log('Location sent successfully:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending location:', error);
+            }
+        });
+    }
+
+    // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+    // kakao.maps.event.addListener(map, 'idle', function() {
+    //     searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    // });
+
+    function searchAddrFromCoords(coords, callback) {
+        // 좌표로 행정동 주소 정보를 요청합니다
+        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    }
+
+    function searchDetailAddrFromCoords(coords, callback) {
+        // 좌표로 법정동 상세 주소 정보를 요청합니다
+        geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+    }
+
+    // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+    // function displayCenterInfo(result, status) {
+    //     if (status === kakao.maps.services.Status.OK) {
+    //         var infoDiv = document.getElementById('centerAddr');
+    //
+    //         for(var i = 0; i < result.length; i++) {
+    //             // 행정동의 region_type 값은 'H' 이므로
+    //             if (result[i].region_type === 'H') {
+    //                 infoDiv.innerHTML = result[i].address_name;
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+
+
+</script>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<!--<script src="js/scripts.js"></script>-->
+</body>
+</html>

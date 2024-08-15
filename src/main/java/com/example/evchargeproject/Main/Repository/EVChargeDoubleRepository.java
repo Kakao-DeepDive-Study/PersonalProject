@@ -1,6 +1,5 @@
 package com.example.evchargeproject.Main.Repository;
 
-import com.example.evchargeproject.Dto.EVChargeDouble;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

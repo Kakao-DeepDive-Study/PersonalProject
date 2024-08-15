@@ -1,13 +1,9 @@
 package com.example.evchargeproject.Main.Service;
 
-import com.example.evchargeproject.Dto.EVChargeDetail;
-import com.example.evchargeproject.Dto.EVChargeDouble;
-import com.example.evchargeproject.Dto.EVChargeForm;
 import com.example.evchargeproject.Main.Repository.EVChargeDetailRepository;
 import com.example.evchargeproject.Main.Repository.EVChargeDoubleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,8 +1,5 @@
 package com.example.evchargeproject.Main.Controller;
 
-import com.example.evchargeproject.Dto.EVChargeDouble;
-import com.example.evchargeproject.Dto.EVChargeForm;
-import com.example.evchargeproject.Dto.LocationData;
 import com.example.evchargeproject.Main.Repository.EVChargeDoubleRepository;
 import com.example.evchargeproject.Main.Service.MainServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

@@ -11,7 +11,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "members")
+@Table(name = "member")
 public class Member {
 
     @Id
@@ -28,12 +28,12 @@ public class Member {
     private String password;
 
     @NotNull
-    @Column(name = "name")
-    private String name;
+    @Column(name = "member_name")
+    private String memberName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "member_role")
-    private MemberRole memberRole;
+    @NotNull
+    @Column(name = "nickname")
+    private String nickname;
 
     @NotNull
     @Column(name = "phone", length = 11)
@@ -41,4 +41,20 @@ public class Member {
 
     @Column(name = "car_type")
     private Long carType;
+
+    @Column(name = "car_number")
+    private String carNumber;
+
+    @Column(name = "house_address")
+    private String houseAddress;
+
+    @Column(name = "office_address")
+    private String officeAddress;
+
+    @Column(name = "profile_url")
+    private String profile_url;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_role")
+    private MemberRole memberRole;
 }

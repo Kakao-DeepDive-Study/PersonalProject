@@ -1,8 +1,8 @@
-package com.example.evchargeproject.domain.entity;
+package com.example.evchargeproject.domain.entity.evcharge;
 
-import com.example.evchargeproject.domain.entity.evcharge.EVCharge;
 import com.example.evchargeproject.domain.entity.member.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +14,11 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "like")
-public class Like {
-
+@Table(name = "rating")
+public class Rating {
     @Id
-    @Column(name = "like_id")
-    private Long likeId;
+    @Column(name="rating_id")
+    private Long ratingId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -30,4 +29,8 @@ public class Like {
     @JoinColumn(name = "evc_id")
     @OnDelete(action = CASCADE)
     private EVCharge evCharge;
+
+    @NotNull
+    @Column(name = "score")
+    private int score;
 }

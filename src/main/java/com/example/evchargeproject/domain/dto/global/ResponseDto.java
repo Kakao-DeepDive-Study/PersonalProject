@@ -1,10 +1,10 @@
 package com.example.evchargeproject.domain.dto.global;
 
+import com.example.evchargeproject.domain.exception.CommonException;
+import com.example.evchargeproject.domain.exception.ErrorCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import kcs.funding.fundingboost.domain.exception.CommonException;
-import kcs.funding.fundingboost.domain.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.AuthenticationException;

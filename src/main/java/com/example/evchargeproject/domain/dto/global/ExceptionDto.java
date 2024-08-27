@@ -1,8 +1,8 @@
 package com.example.evchargeproject.domain.dto.global;
 
+import com.example.evchargeproject.domain.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import kcs.funding.fundingboost.domain.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

@@ -1,6 +1,6 @@
 package com.example.evchargeproject.domain.exception;
 
-import kcs.funding.fundingboost.domain.dto.global.ResponseDto;
+import com.example.evchargeproject.domain.dto.global.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;

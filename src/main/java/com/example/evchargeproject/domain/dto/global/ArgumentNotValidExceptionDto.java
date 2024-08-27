@@ -1,8 +1,8 @@
 package com.example.evchargeproject.domain.dto.global;
 
+import com.example.evchargeproject.domain.exception.ErrorCode;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import kcs.funding.fundingboost.domain.exception.ErrorCode;
 import lombok.Getter;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

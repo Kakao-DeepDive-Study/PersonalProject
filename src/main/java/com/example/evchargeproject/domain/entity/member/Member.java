@@ -45,8 +45,8 @@ public class Member {
     @Column(name = "car_number")
     private String carNumber;
 
-    @Column(name = "house_address")
-    private String houseAddress;
+    @Column(name = "home_address")
+    private String homeAddress;
 
     @Column(name = "office_address")
     private String officeAddress;

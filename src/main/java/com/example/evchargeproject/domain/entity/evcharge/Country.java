@@ -1,9 +1,7 @@
 package com.example.evchargeproject.domain.entity.evcharge;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +13,19 @@ import lombok.NoArgsConstructor;
 public class Country {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "country_id")
     private Long countryId;
 
-    @Id
+    @NotNull
     @Column(name = "country_name")
-    private Long countryName;
+    private String countryName;
+
+    public static Country createCountry(String countryName){
+        Country country = new Country();
+        country.countryName = countryName;
+        return country;
+    }
+
 
 }

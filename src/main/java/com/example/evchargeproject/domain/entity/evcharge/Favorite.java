@@ -13,10 +13,11 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "like")
-public class Like {
+@Table(name = "favorite")
+public class Favorite {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
     private Long likeId;
 

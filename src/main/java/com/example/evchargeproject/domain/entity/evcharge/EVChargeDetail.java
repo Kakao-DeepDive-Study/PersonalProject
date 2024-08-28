@@ -19,6 +19,7 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 public class EVChargeDetail {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "evc_detail_id")
     private Long evcDetailId;
 
@@ -42,10 +43,28 @@ public class EVChargeDetail {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "evc_type_id")
     @OnDelete(action = CASCADE)
-    private EVChargeType evcTypeId;
+    private EVChargeType evChargeType;
 
     @NotNull
     @Column(name = "user_restriction")
-    @ColumnDefault(value = "0")
     private boolean userRestriction;
+
+    @NotNull
+    @Column(name = "evc_count")
+    private int evcCount;
+
+    public static EVChargeDetail createEVChargeDetail(EVCharge evCharge, int installationYear,
+                                                      String operatorCategoryMajor, String operatorCategoryMinor,
+                                                      EVChargeType evChargeType, boolean userRestriction, int evcCount) {
+        EVChargeDetail evChargeDetail = new EVChargeDetail();
+        evChargeDetail.evCharge = evCharge;
+        evChargeDetail.installationYear = installationYear;
+        evChargeDetail.operatorCategoryMajor = operatorCategoryMajor;
+        evChargeDetail.operatorCategoryMinor = operatorCategoryMinor;
+        evChargeDetail.evChargeType = evChargeType;
+        evChargeDetail.userRestriction = userRestriction;
+        evChargeDetail.evcCount = evcCount;
+
+        return evChargeDetail;
+    }
 }

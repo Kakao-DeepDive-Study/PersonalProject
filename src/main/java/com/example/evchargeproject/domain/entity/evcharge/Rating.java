@@ -17,6 +17,7 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Table(name = "rating")
 public class Rating {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="rating_id")
     private Long ratingId;
 

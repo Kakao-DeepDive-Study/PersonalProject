@@ -36,7 +36,7 @@ public class Member {
     private String nickname;
 
     @NotNull
-    @Column(name = "phone", length = 11)
+    @Column(name = "phone", length = 13)
     private String phone;
 
     @Column(name = "car_type")
@@ -57,4 +57,19 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(name = "member_role")
     private MemberRole memberRole;
+
+
+    public static Member createMember(String email, String password, String memberName, String nickname, String phone){
+        Member member = new Member();
+        member.email = email;
+        member.password = password;
+        member.memberName = memberName;
+        member.nickname = nickname;
+        member.phone = phone;
+        member.carType = null;
+        member.homeAddress = null;
+        member.officeAddress = null;
+        member.memberRole = MemberRole.ROLE_USER;
+        return member;
+    }
 }

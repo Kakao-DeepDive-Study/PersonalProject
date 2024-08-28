@@ -19,6 +19,7 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 public class EVCharge {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "evc_id")
     private Long evcId;
 
@@ -60,5 +61,28 @@ public class EVCharge {
     @Column(name = "rating_avg")
     @ColumnDefault(value = "0.0")
     private Double ratingAvg;
+
+    @NotNull
+    @Column(name = "evc_image")
+    private String evcImage;
+
+    public static EVCharge createEVCharge(City city, Country country, String detailAddress, String evcName,
+                                          String facilityTypeMajor, String facilityTypeMinor,
+                                          Double latitude, Double longitude){
+        EVCharge evCharge = new EVCharge();
+        evCharge.city = city;
+        evCharge.country = country;
+        evCharge.detailAddress = detailAddress;
+        evCharge.evcName = evcName;
+        evCharge.facilityTypeMajor = facilityTypeMajor;
+        evCharge.facilityTypeMinor = facilityTypeMinor;
+        evCharge.latitude = latitude;
+        evCharge.longitude = longitude;
+        evCharge.ratingAvg = 0.0;
+        evCharge.evcImage = "../assets/kakaoProfileDefault.jpeg";
+        return evCharge;
+
+
+    }
 }
 

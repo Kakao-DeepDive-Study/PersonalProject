@@ -17,37 +17,37 @@ import java.util.Arrays;
 @OpenAPIDefinition
 public class SwaggerConfig implements WebMvcConfigurer {
 
-    @Bean
-    public OpenAPI openAPI() {
+//    @Bean
+//    public OpenAPI openAPI() {
+//
+//        Info info = new Info()
+//                .version("v1.0.0")
+//                .title("EVChargeProject API")
+//                .description("EVChargeProject API 목록입니다.");
+//
+//        SecurityScheme accessTokensecurityScheme = new SecurityScheme()
+//                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+//                .in(SecurityScheme.In.HEADER).name("Authorization");
+//
+//        SecurityScheme refreshTokenSecurityScheme = new SecurityScheme()
+//                .type(SecurityScheme.Type.APIKEY).in(SecurityScheme.In.HEADER).name("Authorization");
+//
+//        SecurityRequirement securityRequirement = new SecurityRequirement()
+//                .addList("bearerAuth")
+//                .addList("refreshTokenAuth");
+//
+//        Components components = new Components()
+//                .addSecuritySchemes("bearerAuth", accessTokensecurityScheme)
+//                .addSecuritySchemes("refreshTokenAuth", refreshTokenSecurityScheme);
+//
+//        return new OpenAPI()
+//                .components(components)
+//                .security(Arrays.asList(securityRequirement))
+//                .info(info);
+//    }
 
-        Info info = new Info()
-                .version("v1.0.0")
-                .title("EVChargeProject API")
-                .description("EVChargeProject API 목록입니다.");
-
-        SecurityScheme accessTokensecurityScheme = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
-                .in(SecurityScheme.In.HEADER).name("Authorization");
-
-        SecurityScheme refreshTokenSecurityScheme = new SecurityScheme()
-                .type(SecurityScheme.Type.APIKEY).in(SecurityScheme.In.HEADER).name("Authorization");
-
-        SecurityRequirement securityRequirement = new SecurityRequirement()
-                .addList("bearerAuth")
-                .addList("refreshTokenAuth");
-
-        Components components = new Components()
-                .addSecuritySchemes("bearerAuth", accessTokensecurityScheme)
-                .addSecuritySchemes("refreshTokenAuth", refreshTokenSecurityScheme);
-
-        return new OpenAPI()
-                .components(components)
-                .security(Arrays.asList(securityRequirement))
-                .info(info);
-    }
-
-    @Bean
-    ForwardedHeaderFilter forwardedHeaderFilter() {
-        return new ForwardedHeaderFilter();
-    }
+//    @Bean
+//    ForwardedHeaderFilter forwardedHeaderFilter() {
+//        return new ForwardedHeaderFilter();
+//    }
 }

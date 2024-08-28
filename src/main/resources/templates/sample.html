@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>전기차 충전소 위치 찾기</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+        .wrap * {padding: 0;margin: 0;}
+        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+        .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+        .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+        .info .close:hover {cursor: pointer;}
+        .info .body {position: relative;overflow: hidden;}
+        .info .desc {position: relative;margin: 5px 0 0 90px;height: 75px;}
+        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+        .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+        .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .info .link {color: #5085BB;}
+    </style>
+    <!-- Custom styles for this template -->
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap core JS 현재 위치에서 검색 Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div th:replace="~{common/header::header}"></div>
+<div id="map" style="width:100%;height:350px;"></div>
+<div th:replace="~{common/footer::footer}"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fcd1141e1fc1e3054cfe56c68248638d&libraries=services"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.20962, 126.97710), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+    // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 버튼 엘리먼트 생성
+    var currentMapFind = document.createElement('div');
+    currentMapFind.innerHTML = '<button id="currentMapFindButton" class="btn btn-outline-dark">현재 위치에서 검색</button>';
+    currentMapFind.style.position = 'absolute';
+    currentMapFind.style.bottom = '10px';
+    currentMapFind.style.left = '50%';
+    currentMapFind.style.transform = 'translateX(-50%)';
+    currentMapFind.style.zIndex = '1';
+    mapContainer.appendChild(currentMapFind);
+
+    // 즐겨찾기 마커 이미지의 이미지 주소입니다
+    // var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    // 마커 이미지의 이미지 크기 입니다
+    var imageSize = new kakao.maps.Size(35, 35);
+    var myImageSrc = "../assets/myPosition.png";
+    var myMarkerImage = new kakao.maps.MarkerImage(myImageSrc, imageSize);
+    // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    getCurrentLocation();
+
+    // 현재 위치 기반 마크 찍기 + 서버로 주소 전송 + 데이터 가져오기
+    function getCurrentLocation(){
+        if (navigator.geolocation) {
+            var geocoder = new kakao.maps.services.Geocoder();
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude, // 위도
+                    lon = position.coords.longitude; // 경도
+                var locPosition = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+                    message = '<div style="padding:5px;">내 위치</div>'; // 인포윈도우에 표시될 내용입니다
+                // 위도와 경도로 주소를 가져옵니다
+                geocoder.coord2Address(lon, lat, function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        var address = result[0].address.address_name;
+                        // 주소를 서버로 전송합니다
+                        sendLocationToServer(address);
+                    }
+                });
+                // 마커와 인포윈도우를 표시합니다
+                displayMyMarker(locPosition, message);
+            });
+        } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
+                message = 'geolocation을 사용할수 없어요..'
+            displayMyMarker(locPosition, message);
+        }
+    }
+
+    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+    function displayMyMarker(locPosition, message) {
+        // 마커를 생성합니다
+        var myMarker = new kakao.maps.Marker({
+            map: map,
+            position: locPosition,
+            image: myMarkerImage
+        });
+        var iwContent = message, // 인포윈도우에 표시할 내용
+            iwRemoveable = true;
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content : iwContent,
+            removable : iwRemoveable
+        });
+        // 인포윈도우를 마커위에 표시합니다
+        infowindow.open(map, myMarker);
+        // 지도 중심좌표를 접속위치로 변경합니다
+        map.setCenter(locPosition);
+    }
+
+    // "evcId": 11,
+    //     "latitude": 37.21343279,
+    //     "longitude": 126.9727136,
+    //     "evcName": "봉담신명아파트1",
+    //     "cityName": "경기도",
+    //     "countryName": "화성시",
+    //     "detailAddress": "봉담읍 와우로34번길 63 (신명아파트)",
+    //     "facilityTypeMajor": "공동주택시설",
+    //     "facilityTypeMinor": "아파트",
+    //     "evcImage": "../assets/kakaoProfileDefault.jpeg",
+    //     "ratingAvg": 0,
+    //     "favoriteYn": false
+
+    // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+    function displayMarker(data) {
+        let lat = data.latitude;
+        let lng = data.longitude;
+        var locPosition = new kakao.maps.LatLng(lat, lng);
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: locPosition,
+            clickable: true // 클릭 가능하도록 설정
+        });
+
+        var overlay = null;
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            var overlayContent = createOverlayContent(data); // 오버레이 내용 생성
+            overlay = new kakao.maps.CustomOverlay({
+                content: overlayContent,
+                map: map,
+                position: marker.getPosition()
+            });
+
+            kakao.maps.event.addListener(marker, 'click', function() {
+                overlay.setMap(map); // 마커 클릭 시 오버레이 표시
+            });
+
+            // 오버레이를 닫기 위한 이벤트 추가
+            document.getElementById('closeButton').addEventListener('click', function() {
+                overlay.setMap(null);
+            });
+
+        });
+    }
+
+    // 오버레이 생성
+    function createOverlayContent(data) {
+
+        var wrap = document.createElement('div');
+        wrap.classList.add('wrap');
+
+        var info = document.createElement('div');
+        info.classList.add('info');
+
+        var title = document.createElement('div');
+        title.classList.add('title');
+        title.textContent = data.evcName;
+        title.style.whiteSpace = 'initial';
+
+        var close = document.createElement('button');
+        close.classList.add('close');
+        close.setAttribute('title', '닫기');
+        close.setAttribute('id', 'closeButton');
+        close.addEventListener('click', function(){
+            overlay.setMap(null);
+        });
+
+        title.appendChild(close);
+
+        var body = document.createElement('div');
+        body.classList.add('body');
+
+        var imgDiv = document.createElement('div');
+        imgDiv.classList.add('img');
+
+        var img = document.createElement('img');
+        img.src = data.evcImage;
+        img.width = 73;
+        img.height = 71;
+
+        imgDiv.appendChild(img);
+
+        var desc = document.createElement('div');
+        desc.classList.add('desc');
+        var ellipsis1 = document.createElement('div');
+        ellipsis1.classList.add('ellipsis');
+        ellipsis1.textContent = "주소      " + data.cityName+ " " +data.countryName+ " " +data.detailAddress;
+
+        var ellipsis2 = document.createElement('div');
+        ellipsis2.classList.add('ellipsis');
+        ellipsis2.textContent = "시설구분(대) " + data.facilityTypeMajor;
+
+        var ellipsis3 = document.createElement('div');
+        ellipsis3.classList.add('ellipsis');
+        ellipsis3.textContent = "시설구분(소) " + data.facilityTypeMinor;
+
+        // desc 안에 들어가는 ellipsis1과 ellipsis2에 CSS 스타일 추가
+        ellipsis1.style.whiteSpace = 'initial'; // 넘치는 텍스트를 강제로 한 줄에 표시
+        ellipsis1.style.overflow = 'hidden'; // 넘치는 텍스트를 숨김
+        ellipsis1.style.textOverflow = 'ellipsis'; // 넘치는 텍스트는 생략 부호(...)로 표시
+
+        ellipsis2.style.whiteSpace = 'initial'; // 넘치는 텍스트를 강제로 한 줄에 표시
+        ellipsis2.style.overflow = 'hidden'; // 넘치는 텍스트를 숨김
+        ellipsis2.style.textOverflow = 'ellipsis'; // 넘치는 텍스트는 생략 부호(...)로 표시
+
+        ellipsis3.style.whiteSpace = 'initial'; // 넘치는 텍스트를 강제로 한 줄에 표시
+        ellipsis3.style.overflow = 'hidden'; // 넘치는 텍스트를 숨김
+        ellipsis3.style.textOverflow = 'ellipsis'; // 넘치는 텍스트는 생략 부호(...)로 표시
+
+        var kakaoMapURL = "https://map.kakao.com/";
+        var searchAddress = data.cityName + data.countryName + data.detailAddress;
+
+        var linkDiv = document.createElement('div');
+        var link = document.createElement('a');
+        link.href = kakaoMapURL + '?q=' + encodeURIComponent(searchAddress);
+        link.target = searchAddress;
+        link.textContent = '카카오맵';
+        link.classList.add('link');
+
+        linkDiv.appendChild(link);
+
+        // 생성한 linkDiv를 원하는 위치에 추가하면 됩니다
+        info.appendChild(linkDiv);
+
+        desc.appendChild(ellipsis1);
+        desc.appendChild(ellipsis2);
+        desc.appendChild(ellipsis3);
+        desc.appendChild(linkDiv);
+
+        body.appendChild(imgDiv);
+        body.appendChild(desc);
+
+        info.appendChild(title);
+        info.appendChild(body);
+
+        wrap.appendChild(info);
+
+        return wrap.outerHTML;
+    }
+
+
+
+
+    function sendLocationToServer(address) {
+        $.ajax({
+            type: 'GET',
+            url: '/sendLocation', // 데이터를 전송할 URL
+            data: {
+                address: address,
+                memberId: 1
+            },
+            dataType: 'json',
+            success: function(data) {
+                var positions = data.toString();
+                for(let i=0; i < data.length; i++){
+                    displayMarker(data[i]);
+                }
+                console.log('evChargeList = ', data);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending location:', error);
+            }
+        });
+    }
+
+    // 현재 위치에서 충전소 찾기
+    var currentMapFindButton = document.getElementById('currentMapFindButton');
+    currentMapFindButton.addEventListener('click', function() {
+        var locPosition = map.getCenter();
+        searchDetailAddrFromCoords(locPosition,function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var address = result[0].address.address_name;
+
+                // sendLocationToServer(address);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

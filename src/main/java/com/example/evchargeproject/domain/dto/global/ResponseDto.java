@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -46,8 +45,8 @@ public record ResponseDto<T>(@JsonIgnore HttpStatus httpStatus,
         return new ResponseDto<>(e.getErrorCode().getHttpStatus(), false, null, ExceptionDto.of(e.getErrorCode()));
     }
 
-    public static ResponseDto<Object> fail(final AuthenticationException exception) {
-        return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR, false, null,
-                ExceptionDto.of(ErrorCode.NOT_MATCH_USER));
-    }
+//    public static ResponseDto<Object> fail(final AuthenticationException exception) {
+//        return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR, false, null,
+//                ExceptionDto.of(ErrorCode.NOT_MATCH_USER));
+//    }
 }

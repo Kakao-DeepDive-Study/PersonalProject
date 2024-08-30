@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
 <!--    <link href="css/styles.css" rel="stylesheet" />-->
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.1/css/bootstrap.min.css">-->
@@ -20,7 +20,7 @@
 <!--    <link href="static/css/bootstrap.min.css" rel="stylesheet">-->
 <!--    <link href="css/headers.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -39,35 +39,12 @@
     <!-- Custom styles for this template -->
 
 <!--    <link href="static/css/headers.css" rel="stylesheet">-->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/bootstrap.js"></script>
 </head>
 <body>
-<header class="p-3 text-bg-dark">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/home" class="nav-link px-2 text-white">전기차 충전소</a></li>
-                <li><a href="/list" class="nav-link px-2 text-white">충전소 목록</a></li>
-                <li><a href="/projectintro" class="nav-link px-2 text-white">사이트 소개</a></li>
-            </ul>
-
-<!--            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">-->
-<!--                <input type="search" class="form-control form-control-dark text-bg-light" placeholder="Search..." aria-label="Search">-->
-<!--            </form>-->
-
-            <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-primary">Sign-up</button>
-            </div>
-        </div>
-    </div>
-</header>
+<div th:replace="~{common/header::header}"></div>
 
 <!--  리스트   -->
 <div class="container">
@@ -136,65 +113,52 @@
 
     <hr/>
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center" th:if="${totalPages != 0}">
-            <li class="page-item" th:if="${currentPage >= 9}">
-                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=0)}" aria-label="First">
-                    <span aria-hidden="true">&laquo;&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:if="${currentPage>=9}">
-                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${evChargeDoubles.pageable.pageNumber - 10})}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:class="${page == evChargeDoubles.pageable.pageNumber + 1} ? 'page-item active' : 'page-item'">
-                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${page - 1})}" th:text="${page}"></a>
-            </li>
-            <li class="page-item" th:if="${currentPage <= totalPages || currentPage > totalPages ? endPage : currentPage}">
-                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${evChargeDoubles.pageable.pageNumber + 10})}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:if="${currentPage <= totalPages - 10}">
-                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${totalPages - 1})}" aria-label="Last">
-                    <span aria-hidden="true">&raquo;&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<!--    <nav aria-label="Page navigation example">-->
+<!--        <ul class="pagination justify-content-center" th:if="${totalPages != 0}">-->
+<!--            <li class="page-item" th:if="${currentPage >= 9}">-->
+<!--                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=0)}" aria-label="First">-->
+<!--                    <span aria-hidden="true">&laquo;&laquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:if="${currentPage>=9}">-->
+<!--                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${evChargeDoubles.pageable.pageNumber - 10})}" aria-label="Previous">-->
+<!--                    <span aria-hidden="true">&laquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:each="page : ${#numbers.sequence(startPage, endPage)}" th:class="${page == evChargeDoubles.pageable.pageNumber + 1} ? 'page-item active' : 'page-item'">-->
+<!--                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${page - 1})}" th:text="${page}"></a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:if="${currentPage <= totalPages || currentPage > totalPages ? endPage : currentPage}">-->
+<!--                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${evChargeDoubles.pageable.pageNumber + 10})}" aria-label="Next">-->
+<!--                    <span aria-hidden="true">&raquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:if="${currentPage <= totalPages - 10}">-->
+<!--                <a class="page-link" th:href="@{/list(region=${region}, city=${city}, page=${totalPages - 1})}" aria-label="Last">-->
+<!--                    <span aria-hidden="true">&raquo;&raquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </nav>-->
 
 </div>
-<div  class="text-center">
-    <ul class="pagination">
+<!--<div  class="text-center">-->
+<!--    <ul class="pagination">-->
 
-    </ul>
-</div>
-<div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-body-secondary">2023 데이터베이스 프로젝트, 임창희</p>
-
-        <ul class="nav col-md-4 justify-content-end">
-            <li class="nav-item"><a href="/home" class="nav-link px-2 text-body-secondary">전기차 충전소</a></li>
-            <li class="nav-item"><a href="/list" class="nav-link px-2 text-body-secondary">충전소 목록</a></li>
-            <li class="nav-item"><a href="/projectintro" class="nav-link px-2 text-body-secondary">사이트 소개</a></li>
-        </ul>
-    </footer>
-</div>
+<!--    </ul>-->
+<!--</div>-->
+<div th:replace="~{common/footer::footer}"></div>
 <script>
     //HTML 요소 가져오기
     const urlParams = new URLSearchParams(window.location.search);
-    const regionParam = urlParams.get('region');
-    const cityParam = urlParams.get('city');
+    const regionParam = urlParams.get('cityId');
+    const cityParam = urlParams.get('countryId');
 
     if (regionParam && cityParam) {
         document.getElementById('regionSelect').value = regionParam;
         document.getElementById('citySelect').value = cityParam;
     }
 
-    // if (cityParam) {
-    //     document.getElementById('citySelect').value = cityParam;
-    // }
 
     // 팔도 지역 선택란 값이 변경될 때 호출되는 함수 설정
     document.getElementById('regionSelect').addEventListener('change', function() {
@@ -276,9 +240,6 @@
 </script>
 <!--        &lt;!&ndash; Bootstrap core JS&ndash;&gt;-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-<!--        &lt;!&ndash; Core theme JS&ndash;&gt;-->
-<!--        <script src="js/scripts.js"></script>-->
-<!--<script src="static/js/bootstrap.bundle.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
 </html>

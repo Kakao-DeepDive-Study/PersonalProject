@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>전기차 충전소 위치 찾기</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -14,7 +14,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -51,9 +51,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/bootstrap.bundle.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/bootstrap.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap core JS 현재 위치에서 검색 Bootstrap-->
@@ -153,19 +153,6 @@
         map.setCenter(locPosition);
     }
 
-    // "evcId": 11,
-    //     "latitude": 37.21343279,
-    //     "longitude": 126.9727136,
-    //     "evcName": "봉담신명아파트1",
-    //     "cityName": "경기도",
-    //     "countryName": "화성시",
-    //     "detailAddress": "봉담읍 와우로34번길 63 (신명아파트)",
-    //     "facilityTypeMajor": "공동주택시설",
-    //     "facilityTypeMinor": "아파트",
-    //     "evcImage": "../assets/kakaoProfileDefault.jpeg",
-    //     "ratingAvg": 0,
-    //     "favoriteYn": false
-
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(data) {
         let lat = data.latitude;
@@ -189,6 +176,9 @@
             });
 
             kakao.maps.event.addListener(marker, 'click', function() {
+                if(overlay != null){
+                    overlay.setMap(null);
+                }
                 overlay.setMap(map); // 마커 클릭 시 오버레이 표시
             });
 
@@ -295,13 +285,10 @@
         return wrap.outerHTML;
     }
 
-
-
-
     function sendLocationToServer(address) {
         $.ajax({
             type: 'GET',
-            url: '/sendLocation', // 데이터를 전송할 URL
+            url: '/evcharge/sendLocation', // 데이터를 전송할 URL
             data: {
                 address: address,
                 memberId: 1
@@ -324,13 +311,7 @@
     var currentMapFindButton = document.getElementById('currentMapFindButton');
     currentMapFindButton.addEventListener('click', function() {
         var locPosition = map.getCenter();
-        searchDetailAddrFromCoords(locPosition,function(result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-                var address = result[0].address.address_name;
-
-                // sendLocationToServer(address);
-            }
-        });
+        sendLocationToServer(locPosition);
     });
 </script>
 

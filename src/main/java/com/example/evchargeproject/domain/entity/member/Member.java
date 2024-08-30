@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -40,10 +41,9 @@ public class Member {
     private String phone;
 
     @Column(name = "car_type")
-    private Long carType;
-
-    @Column(name = "car_number")
-    private String carNumber;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "car_type_id")
+    private CarType carType;
 
     @Column(name = "home_address")
     private String homeAddress;

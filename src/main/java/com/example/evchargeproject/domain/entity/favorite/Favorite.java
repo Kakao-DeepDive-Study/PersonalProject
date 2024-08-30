@@ -1,5 +1,6 @@
-package com.example.evchargeproject.domain.entity.evcharge;
+package com.example.evchargeproject.domain.entity.favorite;
 
+import com.example.evchargeproject.domain.entity.evcharge.EVCharge;
 import com.example.evchargeproject.domain.entity.member.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,8 +19,8 @@ public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "like_id")
-    private Long likeId;
+    @Column(name = "favorite_id")
+    private Long favoriteId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -30,4 +31,11 @@ public class Favorite {
     @JoinColumn(name = "evc_id")
     @OnDelete(action = CASCADE)
     private EVCharge evCharge;
+
+    public static Favorite createFavorite(Member member, EVCharge evCharge){
+        Favorite favorite = new Favorite();
+        favorite.member = member;
+        favorite.evCharge = evCharge;
+        return favorite;
+    }
 }

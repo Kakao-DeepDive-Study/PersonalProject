@@ -4,7 +4,7 @@ import com.example.evchargeproject.domain.entity.evcharge.EVCharge;
 import lombok.Builder;
 
 @Builder
-public record EVChargeAddressDTO(
+public record EVChargeAddressDto(
         Long evcId,
         Double latitude,
         Double longitude,
@@ -18,8 +18,8 @@ public record EVChargeAddressDTO(
         Double ratingAvg,
         boolean favoriteYn
 ) {
-    public static EVChargeAddressDTO fromEntity(EVCharge evCharge, boolean favoriteYn){
-        return EVChargeAddressDTO.builder()
+    public static EVChargeAddressDto fromEntity(EVCharge evCharge, boolean favoriteYn){
+        return EVChargeAddressDto.builder()
                 .evcId(evCharge.getEvcId())
                 .latitude(evCharge.getLatitude())
                 .longitude(evCharge.getLongitude())

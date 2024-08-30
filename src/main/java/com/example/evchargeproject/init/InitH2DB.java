@@ -439,7 +439,10 @@ public class InitH2DB {
             evCharge14 = evCharges.get(13);
             evCharge15 = evCharges.get(14);
 
+            evChargeType7 = evChargeTypes.get(6);
             evChargeType13 = evChargeTypes.get(12);
+            evChargeType14 = evChargeTypes.get(13);
+            evChargeType21 = evChargeTypes.get(20);
 
             List<EVChargeDetail> evChargeDetailInfos = Arrays.asList(
                     EVChargeDetail.createEVChargeDetail(evCharge1,2024,"타기관","GS칼텍스",evChargeType13,true,2),

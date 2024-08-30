@@ -9,6 +9,10 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.EAGER;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
@@ -65,6 +69,9 @@ public class EVCharge {
     @NotNull
     @Column(name = "evc_image")
     private String evcImage;
+
+    @OneToMany(mappedBy = "evCharge", cascade = ALL)
+    private List<EVChargeDetail> evChargeDetailList = new ArrayList<>();
 
     public static EVCharge createEVCharge(City city, Country country, String detailAddress, String evcName,
                                           String facilityTypeMajor, String facilityTypeMinor,

@@ -2,6 +2,7 @@ package com.example.evchargeproject.domain.service.evcharge;
 
 import com.example.evchargeproject.domain.dto.common.CommonSuccessDto;
 import com.example.evchargeproject.domain.dto.response.evcharge.EVChargeAddressDto;
+import com.example.evchargeproject.domain.dto.response.evcharge.EVChargeDetailsListDto;
 import com.example.evchargeproject.domain.dto.response.evcharge.EVChargeListDto;
 import com.example.evchargeproject.domain.entity.evcharge.City;
 import com.example.evchargeproject.domain.entity.evcharge.Country;
@@ -85,5 +86,14 @@ public class EVChargeService {
 
         List<EVCharge> evCharges = evChargeRepository.findEVChargesByCityAndCountry(city.getCityName(), country.getCountryName());
         return evCharges.stream().map(EVChargeListDto::fromEntity).toList();
+    }
+
+    public EVChargeDetailsListDto evChargeDetailsList(Long memberId, Long evcId){
+        EVCharge evCharge = evChargeRepository.findById(evcId).orElseThrow(() -> new CommonException(NOT_FOUND_EVCHARGE));
+        boolean favoriteYn = false;
+        if(favoriteRepository.existsFavoriteByMemberAndEvCharge(memberId, evCharge.getEvcId())>0){
+            favoriteYn = true;
+        }
+        return EVChargeDetailsListDto.fromEntity(evCharge, favoriteYn);
     }
 }

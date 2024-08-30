@@ -5,6 +5,7 @@ import com.example.evchargeproject.domain.dto.global.ResponseDto;
 import com.example.evchargeproject.domain.dto.request.FavoriteDto;
 import com.example.evchargeproject.domain.dto.request.RatingDto;
 import com.example.evchargeproject.domain.dto.response.evcharge.EVChargeAddressDto;
+import com.example.evchargeproject.domain.dto.response.evcharge.EVChargeDetailsListDto;
 import com.example.evchargeproject.domain.dto.response.evcharge.EVChargeListDto;
 import com.example.evchargeproject.domain.service.evcharge.EVChargeService;
 import lombok.RequiredArgsConstructor;
@@ -71,5 +72,9 @@ public class EVChargeController {
         return evChargeService.evChargeList(memberId, cityId, countryId);
     }
 
-
+    @GetMapping(value = "/list/details")
+    @ResponseBody
+    public EVChargeDetailsListDto evchargeDetailsList(@RequestParam(name = "memberId") Long memberId, @RequestParam(name = "evcId") Long evcId){
+        return evChargeService.evChargeDetailsList(memberId, evcId);
+    }
 }

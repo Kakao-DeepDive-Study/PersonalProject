@@ -1,5 +1,6 @@
-package com.example.evchargeproject.domain.entity.evcharge;
+package com.example.evchargeproject.domain.entity.rating;
 
+import com.example.evchargeproject.domain.entity.evcharge.EVCharge;
 import com.example.evchargeproject.domain.entity.member.Member;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -34,4 +35,12 @@ public class Rating {
     @NotNull
     @Column(name = "score")
     private int score;
+
+    public static Rating createRating(Member member, EVCharge evCharge, int score) {
+        Rating rating = new Rating();
+        rating.member = member;
+        rating.evCharge = evCharge;
+        rating.score = score;
+        return rating;
+    }
 }
